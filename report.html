@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 01 Technical Report - PS/2022/152</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+            @bottom-right {
+                content: counter(page);
+            }
+        }
+        body {
+            font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .header-box {
+            text-align: center;
+            border-bottom: 2px solid #4b2589;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        .header-box h1 {
+            color: #4b2589;
+            margin: 0 0 5px 0;
+            font-size: 20pt;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .header-box h2 {
+            font-size: 13pt;
+            font-weight: 600;
+            margin: 3px 0;
+            color: #333;
+        }
+        .header-box h3 {
+            font-size: 11pt;
+            font-weight: normal;
+            color: #555;
+            margin: 3px 0;
+        }
+        .meta-card {
+            background-color: #f8f6fc;
+            border: 1px solid #dcd3eb;
+            border-left: 5px solid #4b2589;
+            border-radius: 6px;
+            padding: 12px 18px;
+            margin-bottom: 25px;
+        }
+        .meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            row-gap: 6px;
+            font-size: 10pt;
+        }
+        .meta-grid strong {
+            color: #4b2589;
+        }
+        h2.section-title {
+            color: #4b2589;
+            border-bottom: 1px solid #e1e4e8;
+            padding-bottom: 5px;
+            margin-top: 25px;
+            font-size: 14pt;
+        }
+        h3.sub-title {
+            color: #2c1a4d;
+            margin-top: 18px;
+            font-size: 11.5pt;
+        }
+        p, li {
+            font-size: 10pt;
+            text-align: justify;
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        .question-box {
+            background-color: #fafafa;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 14px 18px;
+            margin-bottom: 18px;
+        }
+        .badge {
+            display: inline-block;
+            background-color: #4b2589;
+            color: white;
+            font-size: 9pt;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        pre {
+            background-color: #f6f8fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 8.5pt;
+            overflow-x: auto;
+            line-height: 1.4;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+            background-color: #f1eff8;
+            color: #4b2589;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 9pt;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 9pt;
+        }
+        th, td {
+            border: 1px solid #d0d7de;
+            padding: 7px 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2edf9;
+            color: #2c1a4d;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #fafbfc;
+        }
+        .status-tag {
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 8pt;
+        }
+        .status-success {
+            background-color: #def7ec;
+            color: #03543f;
+        }
+        .status-failed {
+            background-color: #fde8e8;
+            color: #9b1c1c;
+        }
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-box">
+        <h1>University of Kelaniya</h1>
+        <h2>Department of Statistics &amp; Computer Science</h2>
+        <h3>Academic Year 2024/2025 (Semester II) &middot; COSC 32133 / BECS 32263: Full-Stack Software Development</h3>
+        <h3>Assignment 01 Technical Submission Report</h3>
+    </div>
+
+    <div class="meta-card">
+        <div class="meta-grid">
+            <div><strong>Student Name:</strong> Ekanayaka Mudiyanselage Tharindu Bandara</div>
+            <div><strong>Student ID:</strong> PS/2022/152</div>
+            <div><strong>Course Code:</strong> COSC 32133 / BECS 32263</div>
+            <div><strong>Course Name:</strong> Full-Stack Software Development</div>
+            <div><strong>Date of Submission:</strong> 11th of November 2026</div>
+            <div><strong>Repository:</strong> https://github.com/tharindu2003t/bank-transfer-app</div>
+            <div><strong>Branch:</strong> feature/bank-transfer</div>
+            <div><strong>Database &amp; Port:</strong> MySQL bank_db (Port: 3306, root)</div>
+        </div>
+    </div>
+
+    <h2 class="section-title">1. Executive Summary &amp; System Architecture</h2>
+    <p>
+        The <strong>Bank Transfer System</strong> is a production-grade enterprise web application developed using <strong>Spring Boot 3</strong>, <strong>Java 21</strong>, <strong>Spring Data JPA</strong>, <strong>Hibernate</strong>, and <strong>MySQL (InnoDB)</strong>. The core engineering objective of this assignment is enforcing stringent <strong>ACID transactional guarantees</strong> across high-value multi-step financial operations, isolating non-repudiation failure audit trails from rolled-back business contexts, and eliminating concurrency race conditions via atomic database-level update operations.
+    </p>
+
+    <h2 class="section-title">2. Mandatory Assignment Technical Responses</h2>
+
+    <div class="question-box">
+        <div class="badge">Question (a)</div>
+        <h3 class="sub-title" style="margin-top: 0;">What would have happened to the money in test 4 without <code>@Transactional</code>?</h3>
+        <p><strong>Demonstration via Task 10 Experiment (<code>Propagation.SUPPORTS</code>):</strong></p>
+        <p>
+            In Test 4, a transfer of <strong>LKR 1,000.00</strong> from Kamal (<code>100001</code>, balance: LKR 45,000.00) to Saman (<code>100003</code>, balance: LKR 10,000.00) was executed with the <em>"Simulate a system failure"</em> checkbox enabled.
+        </p>
+        <p>
+            <strong>Under Production <code>@Transactional(rollbackFor = Exception.class)</code>:</strong> When the simulated <code>RuntimeException("Simulated system failure after the withdrawal")</code> is thrown immediately following the sender withdrawal, Spring's AOP proxy catches the exception, engages <code>JpaTransactionManager</code>, and issues an explicit <code>ROLLBACK</code> statement to MySQL InnoDB. The preliminary withdrawal of LKR 1,000.00 is completely undone from the database redo/undo logs. Kamal's balance remains strictly at <strong>LKR 45,000.00</strong> and Saman remains at <strong>LKR 10,000.00</strong>.
+        </p>
+        <p>
+            <strong>Under Task 10 (<code>@Transactional(propagation = Propagation.SUPPORTS)</code>):</strong>
+            Because the invocation originates from an unannotated controller method, <code>Propagation.SUPPORTS</code> runs without an active transactional context. Therefore, each statement runs under <strong>database auto-commit mode</strong>:
+        </p>
+        <ol>
+            <li>The atomic debit query <code>customerRepository.debit("100001", 1000.00)</code> executes and is <strong>immediately committed permanently to disk</strong>. Kamal's balance drops from LKR 45,000.00 to LKR 44,000.00.</li>
+            <li>The simulated runtime exception is triggered immediately afterward.</li>
+            <li>Since no encompassing transaction exists, there is no transactional boundary to roll back. The subsequent credit to Saman (<code>100003</code>) is never reached.</li>
+        </ol>
+        <p>
+            <strong>Direct Result:</strong> The LKR 1,000.00 <strong>vanishes permanently</strong> from the bank system. The cumulative sum of all customer balances decreases from LKR 85,000.00 to LKR 84,000.00, demonstrating a catastrophic breakdown of <strong>Atomicity</strong> (the "all-or-nothing" guarantee) and violating the financial invariant of <strong>Consistency</strong>.
+        </p>
+    </div>
+
+    <div class="question-box">
+        <div class="badge">Question (b)</div>
+        <h3 class="sub-title" style="margin-top: 0;">Why is <code>recordFailure</code> in a separate class with <code>REQUIRES_NEW</code>?</h3>
+        <p>
+            This design addresses two fundamental architectural realities of Spring Framework:
+        </p>
+        <p><strong>1. Preventing Audit Trail Rollback Contamination:</strong> When <code>BankService.transfer()</code> fails (due to insufficient funds or simulated system failure), the outer transaction is marked as <code>Rollback-Only</code> and all changes are discarded. If the failure audit record were written within the same transaction, the <code>INSERT INTO bank_transactions</code> would be rolled back as well, leaving zero audit evidence of the attempted transaction. <code>Propagation.REQUIRES_NEW</code> suspends the outer transaction, initiates a separate physical database connection, executes the audit insertion, and immediately commits it independently.</p>
+        <p><strong>2. Overcoming Spring AOP Self-Invocation Proxy Limitations:</strong> Spring manages declarative transactions by wrapping Spring Beans in dynamic runtime proxies (CGLIB / JDK Dynamic Proxies). The proxy intercepts external calls to start and commit/rollback transactions. If <code>recordFailure()</code> were located in the same class (<code>BankService</code>) and invoked via <code>this.recordFailure()</code>, the call would be a direct internal JVM call, <strong>completely bypassing the Spring AOP Proxy</strong>. Consequently, the <code>@Transactional(propagation = Propagation.REQUIRES_NEW)</code> annotation would be completely ignored. Isolating the method into <code>TransactionAuditService</code> ensures that calls from the controller pass through the Spring proxy, guaranteeing independent transactional execution.</p>
+    </div>
+
+    <div class="question-box">
+        <div class="badge">Question (c)</div>
+        <h3 class="sub-title" style="margin-top: 0;">Why does debit use <code>UPDATE ... WHERE balance >= :amount</code> instead of reading the balance first?</h3>
+        <p>
+            Reading the balance first followed by an application-level update creates a critical <strong>Time-of-Check to Time-of-Use (TOCTOU)</strong> race condition:
+        </p>
+        <pre>
+Thread A (Withdraw 40,000): Reads Balance = 50,000.00  | Check Passed (50,000 >= 40,000)
+Thread B (Withdraw 40,000): Reads Balance = 50,000.00  | Check Passed (50,000 >= 40,000)
+Thread A: Writes Balance = (50,000 - 40,000) = 10,000.00 (Committed)
+Thread B: Writes Balance = (50,000 - 40,000) = 10,000.00 (Committed - Overwrites A!)
+Result: Customer withdrew LKR 80,000.00, but account was only debited LKR 40,000.00!
+        </pre>
+        <p>
+            By implementing the conditional update:
+        </p>
+        <pre>@Query("UPDATE Customer c SET c.balance = c.balance - :amount WHERE c.accountNumber = :accountNumber AND c.balance >= :amount")</pre>
+        <ul>
+            <li><strong>Row-Level Exclusive Locking (X-Lock):</strong> In MySQL InnoDB, executing this <code>UPDATE</code> statement against the unique <code>account_number</code> column immediately acquires a row-level exclusive lock. Concurrent transactions are blocked until the current transaction commits or rolls back.</li>
+            <li><strong>Atomic Kernel Execution:</strong> The condition check (<code>balance >= :amount</code>) and calculation (<code>balance = balance - :amount</code>) execute in an indivisible CPU instruction inside the database engine.</li>
+            <li><strong>Reliable Row Count Return:</strong> The statement returns the number of rows updated (<code>int</code>). If the balance is insufficient, zero rows are modified, enabling the service to immediately throw <code>InsufficientBalanceException</code> with mathematical certainty.</li>
+            <li><strong>Cache Eviction:</strong> <code>@Modifying(clearAutomatically = true)</code> automatically synchronizes and clears Hibernate's first-level cache, preventing stale entity reads.</li>
+        </ul>
+    </div>
+
+    <h2 class="section-title">3. Comprehensive Test Verification Matrix (Tests 1 to 7)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Test Action</th>
+                <th>Expected Result</th>
+                <th>What It Proves</th>
+                <th>Console Log Signature</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>1</strong></td>
+                <td>Transfer 5,000 from Kamal (100001) to Nimali (100002)</td>
+                <td>Kamal: 45,000.00; Nimali: 30,000.00; Total: 85,000.00; <span class="status-tag status-success">SUCCESS</span></td>
+                <td>Full commit across sender and receiver</td>
+                <td><code>Initiating transaction commit</code></td>
+            </tr>
+            <tr>
+                <td><strong>2</strong></td>
+                <td>Transfer 20,000 from Saman (balance: 10,000) to Kamal</td>
+                <td>Red error: "Insufficient balance"; Balances unchanged; <span class="status-tag status-failed">FAILED</span></td>
+                <td>Exception triggers rollback; audit bean commits in isolation</td>
+                <td><code>Initiating transaction rollback</code> &middot; <code>REQUIRES_NEW</code> commit</td>
+            </tr>
+            <tr>
+                <td><strong>3</strong></td>
+                <td>Transfer with same sender and receiver (100001 &rarr; 100001)</td>
+                <td>Error: "Sender and receiver accounts must be different"; <span class="status-tag status-failed">FAILED</span></td>
+                <td>Validation inside transaction boundary triggers safe rollback</td>
+                <td><code>Initiating transaction rollback</code></td>
+            </tr>
+            <tr>
+                <td><strong>4</strong></td>
+                <td>Transfer 1,000 from Kamal to Saman with "Simulate failure" checked</td>
+                <td>Error: "Simulated system failure..."; Kamal remains 45,000; Saman remains 10,000; <span class="status-tag status-failed">FAILED</span></td>
+                <td>Prior debit in database is completely UNDONE by rollback</td>
+                <td><code>Initiating transaction rollback</code></td>
+            </tr>
+            <tr>
+                <td><strong>5</strong></td>
+                <td>Submit transfer form with amount 0 or blank</td>
+                <td>Inline validation messages under form inputs; nothing saved</td>
+                <td>Jakarta Bean Validation (<code>@DecimalMin</code>, <code>@NotNull</code>)</td>
+                <td>No transaction initiated (blocked at presentation layer)</td>
+            </tr>
+            <tr>
+                <td><strong>6</strong></td>
+                <td>Add customer Nuwan (100004, 15,000.00), then repeat same account</td>
+                <td>First attempt: Added. Second attempt: "Account 100004 already exists"</td>
+                <td>Custom repository <code>countAccounts</code> validation</td>
+                <td><code>SELECT COUNT(c) FROM Customer c WHERE c.accountNumber = ?</code></td>
+            </tr>
+            <tr>
+                <td><strong>7</strong></td>
+                <td>Search "sil" in customer box; View history for Kamal</td>
+                <td>Displays Nimali Silva; History ledger shows all SUCCESS and FAILED records</td>
+                <td>User-defined <code>@Query</code> with JPQL <code>LIKE</code> and <code>OR</code> conditions</td>
+                <td><code>SELECT c FROM Customer c WHERE LOWER(c.fullName) LIKE ?</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 class="section-title">4. Task 12 Application Extensions</h2>
+    <ul>
+        <li><strong>Large Transfers Filter (<code>/large-transfers?min=10000</code>):</strong> Custom JPQL query <code>findTransfersAboveAmount</code> filtering transfers where <code>amount >= :min</code> and <code>status = SUCCESS</code>.</li>
+        <li><strong>Account Total Sent Aggregate:</strong> Custom JPQL aggregate query <code>getTotalSentByAccount</code> returning <code>COALESCE(SUM(t.amount), 0)</code> for successful transfers, rendered on <code>history.html</code>.</li>
+        <li><strong>Deposit &amp; Withdraw Workflows:</strong> Standalone transactional methods in <code>BankService</code> backed by <code>customerRepository.credit()</code> and <code>debit()</code>, complete with transaction logging.</li>
+        <li><strong>Atomic 1% Bank Revenue Fee (Account <code>999999</code>):</strong> Automatically deduces 1% fee from sender and credits administrative account <code>999999</code> within the same atomic transaction unit.</li>
+    </ul>
+
+</body>
+</html>
+
