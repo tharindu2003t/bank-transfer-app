@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Large Transfers | Bank Transfer System</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header class="topbar">
+    <h1>Large Transfers</h1>
+    <p>Spring Boot &middot; JPQL @Query &middot; MySQL</p>
+</header>
+
+<main class="container">
+
+    <!-- Navigation -->
+    <nav class="card navigation">
+        <a th:href="@{/}" class="btn small">Dashboard</a>
+        <a th:href="@{/large-transfers(min=10000)}" class="btn small">
+            Large Transfers
+        </a>
+    </nav>
+
+    <!-- Filter form -->
+    <section class="card">
+        <h2>Filter Transfers</h2>
+
+        <form th:action="@{/large-transfers}" method="get" class="search">
+            <div class="field">
+                <label for="min">Minimum Amount (LKR)</label>
+                <input
+                    type="number"
+                    id="min"
+                    name="min"
+                    min="0"
+                    step="0.01"
+                    th:value="${min}"
+                    placeholder="10000.00"
+                    required>
+            </div>
+
+            <button type="submit" class="btn primary">
+                Search Transfers
+            </button>
+
+            <a th:href="@{/large-transfers(min=10000)}" class="btn small">
+                Reset
+            </a>
+        </form>
+
+        <p class="help-text">
+            Only successful transfers with an amount greater than the
+            selected minimum are displayed.
+        </p>
+    </section>
+
+    <!-- Summary -->
+    <section class="stats">
+        <div class="stat">
+            <span th:text="${#lists.size(transfers)}">0</span>
+            <small>Matching Transfers</small>
+        </div>
+
+        <div class="stat">
+            <span th:text="${#numbers.formatDecimal(min, 1, 'COMMA', 2, 'POINT')}">
+                10,000.00
+            </span>
+            <small>Minimum Amount (LKR)</small>
+        </div>
+    </section>
+
+    <!-- Transfer results -->
+    <section class="card">
+        <h2>
+            Transfer Results
+            <span class="badge" th:text="${#lists.size(transfers)}">0</span>
+        </h2>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Date &amp; Time</th>
+                        <th>From Account</th>
+                        <th>To Account</th>
+                        <th class="num">Amount (LKR)</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:if="${#lists.isEmpty(transfers)}">
+                        <td colspan="7" class="empty">
+                            No successful transfers found above
+                            LKR
+                            <span th:text="${#numbers.formatDecimal(min, 1, 'COMMA', 2, 'POINT')}">
+                                10,000.00
+                            </span>.
+                        </td>
+                    </tr>
+
+                    <tr th:each="t : ${transfers}">
+                        <td th:text="${t.id}">1</td>
+
+                        <td th:text="${t.createdAt != null
+                            ? #temporals.format(t.createdAt, 'yyyy-MM-dd HH:mm:ss')
+                            : '-'}">
+                            2026-10-24 10:30:00
+                        </td>
+
+                        <td th:text="${t.fromAccount != null
+                            ? t.fromAccount : '-'}">
+                            100001
+                        </td>
+
+                        <td th:text="${t.toAccount != null
+                            ? t.toAccount : '-'}">
+                            100002
+                        </td>
+
+                        <td class="num"
+                            th:text="${#numbers.formatDecimal(t.amount, 1, 'COMMA', 2, 'POINT')}">
+                            15,000.00
+                        </td>
+
+                        <td>
+                            <span
+                                class="tag"
+                                th:classappend="${t.status.name() == 'SUCCESS'}
+                                    ? 'ok' : 'fail'"
+                                th:text="${t.status}">
+                                SUCCESS
+                            </span>
+                        </td>
+
+                        <td th:text="${t.description != null
+                            ? t.description : '-'}">
+                            Transfer completed
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+    COSC 32133 / BECS 32263 &middot; Lab Sheet 06
+</footer>
+
+</body>
+</html>
