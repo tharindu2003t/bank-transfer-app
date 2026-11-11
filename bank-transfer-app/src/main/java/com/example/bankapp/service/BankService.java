@@ -69,7 +69,8 @@ public class BankService {
     }
 
     public BigDecimal getTotalSent(String accountNumber) {
-        return Optional.ofNullable(bankTransactionRepository.getTotalSentByAccount(accountNumber, TransactionStatus.SUCCESS))
+        return Optional
+                .ofNullable(bankTransactionRepository.getTotalSentByAccount(accountNumber, TransactionStatus.SUCCESS))
                 .orElse(BigDecimal.ZERO);
     }
 
@@ -92,8 +93,10 @@ public class BankService {
 
     /**
      * Executes an atomic bank transfer between two customers.
-     * All operations (sender debit, receiver credit, fee routing, and audit persistence)
-     * execute within a single transactional boundary and roll back on any exception.
+     * All operations (sender debit, receiver credit, fee routing, and audit
+     * persistence)
+     * execute within a single transactional boundary and roll back on any
+     * exception.
      *
      * Note for Task 10 experiment:
      * Change this annotation to @Transactional(propagation = Propagation.SUPPORTS)
@@ -118,7 +121,8 @@ public class BankService {
         Customer receiver = customerRepository.getByAccountNumber(toAccount)
                 .orElseThrow(() -> new AccountNotFoundException(toAccount));
 
-        // Task 12 Extension: 1% transfer fee credited to administrative bank account 999999
+        // Task 12 Extension: 1% transfer fee credited to administrative bank account
+        // 999999
         BigDecimal fee = BigDecimal.ZERO;
         boolean applyFee = !"999999".equals(fromAccount) && !"999999".equals(toAccount)
                 && customerRepository.countAccounts("999999") > 0;
@@ -162,8 +166,7 @@ public class BankService {
                 amount,
                 TransactionStatus.SUCCESS,
                 description,
-                LocalDateTime.now()
-        );
+                LocalDateTime.now());
 
         BankTransaction saved = bankTransactionRepository.save(tx);
         log.info("Transfer completed successfully. Transaction ID: {}", saved.getId());
@@ -188,13 +191,13 @@ public class BankService {
                 amount,
                 TransactionStatus.SUCCESS,
                 "Deposit to account " + accountNumber,
-                LocalDateTime.now()
-        );
+                LocalDateTime.now());
         return bankTransactionRepository.save(tx);
     }
 
     /**
-     * Task 12 Extension: Withdraw funds from an account within a single transaction.
+     * Task 12 Extension: Withdraw funds from an account within a single
+     * transaction.
      */
     @Transactional(rollbackFor = Exception.class)
     public BankTransaction withdraw(String accountNumber, BigDecimal amount) {
@@ -214,8 +217,7 @@ public class BankService {
                 amount,
                 TransactionStatus.SUCCESS,
                 "Withdrawal from account " + accountNumber,
-                LocalDateTime.now()
-        );
+                LocalDateTime.now());
         return bankTransactionRepository.save(tx);
     }
 }
